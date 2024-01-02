@@ -1,82 +1,51 @@
-create table if not exists Genre1(
+create table if not exists Genres(
   id SERIAL primary key,
-  name text not null
+  name varchar(50) not null
 );
 
-create table if not exists Genre2(
+create table if not exists Artists(
   id SERIAL primary key,
-  name text not null
+  name varchar(50) not null
 );
 
-create table if not exists Genre3(
-  id SERIAL primary key,
-  name text not null
-);
-
-create table if not exists Artist1(
-  id SERIAL primary key,
-  name text not null,
-  genre_id integer references Genre1(id), Genre2(id)  
-);
-
-create table if not exists Artist2(
-  id SERIAL primary key,
-  name text not null,
-  genre_id integer references Genre2(id), Genre3(id)  
-);
-  
-
-create table if not exists Artist3(
-  id SERIAL primary key,
-  name text not null,
-  constraint pk primary key (genre3_id)
-);  
-
-create table if not exists Album1(
+create table if not exists Albums(
   id integer primary key,
-  name text not null,
-  year integer not null,
-  constraint pk primary key (artist1_id, artist2_id)
+  name varchar(50) not null,
+  year integer not null
 );
 
-create table if not exists Album2(
+create table if not exists Tracks(
   id integer primary key,
-  name text not null,
-  year integer not null,
-  constraint pk primary key (artist1_id, artist3_id)
+  name varchar(50) not null,
+  duration integer not null
 );
 
-create table if not exists Album3(
+create table if not exists Collections(
   id integer primary key,
-  name text not null,
-  year integer not null,
-  constraint pk primary key (artist3_id)
+  name varchar(50) not null,
+  year integer not null
 );
 
-create table if not exists Track1(
+create table if not exists Genres_Artists(
   id integer primary key,
-  name text not null,
-  duration integer not null,
-  constraint pk primary key (album1_id)
+  genre_id integer,
+  artist_id integer,
+  foreign key (genre_id) references Genres(id),
+  foreign key (artist_id) references Artists(id)
 );
 
-create table if not exists Track2(
+create table if not exists collections_tracks(
   id integer primary key,
-  name text not null,
-  duration integer not null,
-  constraint pk primary key (album2_id)
+  collection_id integer not null,
+  track_id integer not null,
+  foreign key (collection_id) references Collections(id),
+  foreign key (track_id) references Tracks(id)
 );
 
-create table if not exists Track3(
+create table if not exists Artists_Albums(
   id integer primary key,
-  name text not null,
-  duration integer not null,
-  track_id integer references (album3_id)
-);
-
-create table if not exists collection(
-  id integer primary key,
-  name text not null,
-  year integer not null,
-  constraint pk primary key (track1_id, track2_id, track3_id)
+  artist_id integer,
+  album_id integer,
+  foreign key (artist_id) references Artists(id),
+  foreign key (album_id) references Albums(id)
 );
