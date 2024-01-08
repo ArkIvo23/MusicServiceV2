@@ -17,13 +17,15 @@ create table if not exists Albums(
 create table if not exists Tracks(
   id integer primary key,
   name varchar(50) not null,
-  duration integer not null
+  duration integer not null,
+  album_id integer not null,
+  foreign key (album_id) references Albums(id)
 );
 
 create table if not exists Collections(
   id integer primary key,
   name varchar(50) not null,
-  year integer not null
+  year varchar(9999) not null
 );
 
 create table if not exists Genres_Artists(
@@ -44,8 +46,8 @@ create table if not exists collections_tracks(
 
 create table if not exists Artists_Albums(
   id integer primary key,
-  artist_id integer,
-  album_id integer,
+  artist_id integer not null,
+  album_id integer not null,
   foreign key (artist_id) references Artists(id),
   foreign key (album_id) references Albums(id)
 );
